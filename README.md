@@ -1,0 +1,4 @@
+LZW
+===
+
+LZW implementation
