@@ -24,11 +24,11 @@ public class LZW {
         String w = "";
         Binary result[] = new Binary[in.length()];
 
-        for(int i = 0; i < in.length(); i++){
-            result[i] = new Binary(17);
-        }
         int indexResult = 0;
+        int i = 0;
         for (char c : in.toCharArray()) {
+            result[i] = new Binary(17);
+            i++;
             String wc = w + c;
            if (dictionnaire.containsKey(wc)) {
                 w = wc;
@@ -42,20 +42,23 @@ public class LZW {
                 w = "" + c;
             }
         }
- 
+
         if (!w.equals("")){
             result[indexResult].fill(Integer.toBinaryString(dictionnaire.get(w)));
         }
 
-        Integer decalage = 0;
-        for(int i = 0; i < in.length(); i++){
-            if(result[i - decalage].isEmpty()) {
-                result = ArrayUtils.remove(result, i-decalage);
-                decalage++;
+        Binary resultCleaned[] = null;
+        for(i = 0; i < in.length(); i++){
+            if(result[i].isEmpty()) {
+                resultCleaned = new Binary[i];
+                for(int j = 0; j < i; j++){
+                    resultCleaned[j] = result[j];
+                }
+                break;
             }
         }
 
-        return result;
+        return resultCleaned;
     }
     
     
@@ -73,7 +76,7 @@ public class LZW {
         }
 
         String w = "" + (char)(int)compresse[0].toInt();
-        compresse = ArrayUtils.removeElement(compresse, compresse[0]);
+        compresse = ArrayUtils.remove(compresse, 0);
 
         StringBuffer result = new StringBuffer(w);
         for (Binary k : compresse) {
