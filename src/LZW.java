@@ -22,7 +22,9 @@ public class LZW {
         }
 
         String w = "";
-        Binary[] result = new Binary[in.length()];
+        Binary result[] = new Binary[in.length()];
+        System.out.println(in.length());
+
         for(int i = 0; i < in.length(); i++){
             result[i] = new Binary(9);
         }
@@ -43,9 +45,12 @@ public class LZW {
             result[indexResult].fill(Integer.toBinaryString(dictionnaire.get(w)));
         }
 
+        Integer decalage = 0;
         for(int i = 0; i < in.length(); i++){
-            if(result[i].isEmpty()) {
-                result = ArrayUtils.removeElement(result, result[i]);
+            System.out.println(result[i - decalage]);
+            if(result[i - decalage].isEmpty()) {
+                result = ArrayUtils.removeElement(result, result[i - decalage]);
+                decalage++;
             }
         }
 

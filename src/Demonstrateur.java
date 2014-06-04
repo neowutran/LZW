@@ -21,7 +21,7 @@ public class Demonstrateur {
             //Read File Line By Line
             while ((strLine = br.readLine()) != null)   {
                 // Print the content on the console
-                input += strLine;
+                input += strLine+"\n";
             }
             //Close the input stream
             in.close();
