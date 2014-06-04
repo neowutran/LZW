@@ -13,7 +13,7 @@ public class Demonstrateur {
         try{
             // Open the file that is the first
             // command line parameter
-            FileInputStream fstream = new FileInputStream("./input.txt");
+            FileInputStream fstream = new FileInputStream("./The_Hobbit.txt");
             // Get the object of DataInputStream
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -29,7 +29,7 @@ public class Demonstrateur {
             System.err.println("Error: " + e.getMessage());
         }
 
-        System.out.println("contenu origine:"+input);
+        //System.out.println("contenu origine:"+input);
         Binary[] compresse = LZW.compression(input);
         Path path = Paths.get("./output.txt");
         try {
@@ -57,6 +57,8 @@ public class Demonstrateur {
         }catch (Exception e){//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }
+
+
         System.out.println("contenu compresser:"+stringCompresser);
         String decompresse = LZW.decompression(compresse);
         System.out.println("contenu decompresser:"+decompresse);

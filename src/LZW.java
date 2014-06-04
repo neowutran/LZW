@@ -14,29 +14,31 @@ public class LZW {
      * */
     public static Binary[] compression(String in) {
         // Creation du dictionnaire.
-        int taille = 256;
+        int taille = Double.valueOf(Math.pow(2, 16)).intValue();
         Map<String,Integer> dictionnaire = new HashMap<String,Integer>();
 
-        for (int i = 0; i < 256; i++){
+        for (int i = 0; i < taille; i++){
         	dictionnaire.put("" + (char)i, i);
         }
 
         String w = "";
         Binary result[] = new Binary[in.length()];
-        System.out.println(in.length());
 
         for(int i = 0; i < in.length(); i++){
-            result[i] = new Binary(9);
+            result[i] = new Binary(17);
         }
         int indexResult = 0;
         for (char c : in.toCharArray()) {
             String wc = w + c;
-            if (dictionnaire.containsKey(wc)) {
+           if (dictionnaire.containsKey(wc)) {
                 w = wc;
             }else {
+
                 result[indexResult].fill(Integer.toBinaryString(dictionnaire.get(w)));
                 indexResult++;
-                dictionnaire.put(wc, taille++);
+               if(taille != Double.valueOf(Math.pow(2, 17)).intValue()) {
+                   dictionnaire.put(wc, taille++);
+               }
                 w = "" + c;
             }
         }
@@ -47,9 +49,8 @@ public class LZW {
 
         Integer decalage = 0;
         for(int i = 0; i < in.length(); i++){
-            System.out.println(result[i - decalage]);
             if(result[i - decalage].isEmpty()) {
-                result = ArrayUtils.removeElement(result, result[i - decalage]);
+                result = ArrayUtils.remove(result, i-decalage);
                 decalage++;
             }
         }
@@ -65,9 +66,9 @@ public class LZW {
      *  
      * */
     public static String decompression(Binary[] compresse) {
-        int taille = 256;
+        int taille = Double.valueOf(Math.pow(2, 16)).intValue();;
         Map<Integer,String> dictionnaire = new HashMap<Integer,String>();
-        for (int i = 0; i < 256; i++) {
+        for (int i = 0; i < taille; i++) {
             dictionnaire.put(i, "" + (char) i);
         }
 
